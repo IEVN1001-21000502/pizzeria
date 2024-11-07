@@ -1,0 +1,64 @@
+<div class="flex align-content-center justify-center">
+  <!-- Formulario de Pedido de Pizza -->
+  <div class="max-w-lg w-full p-6 bg-gray-800 shadow-lg rounded-lg">
+    <h2 class="text-2xl font-semibold text-center mb-6 text-white">Formulario de Pedido de Pizza</h2>
+
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+      <!-- Datos del cliente -->
+      <div class="mb-4">
+        <label for="fullName" class="block text-sm font-medium text-gray-300">Nombre Completo</label>
+        <input type="text" id="fullName" formControlName="fullName" class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm bg-gray-700 text-white" required>
+      </div>
+
+      <div class="mb-4">
+        <label for="address" class="block text-sm font-medium text-gray-300">Dirección</label>
+        <input type="text" id="address" formControlName="address" class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm bg-gray-700 text-white" required>
+      </div>
+
+      <div class="mb-4">
+        <label for="phone" class="block text-sm font-medium text-gray-300">Teléfono</label>
+        <input type="tel" id="phone" formControlName="phone" class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm bg-gray-700 text-white" required>
+      </div>
+
+      <div class="mb-4">
+        <label for="purchaseDate" class="block text-sm font-medium text-gray-300">Fecha de Compra</label>
+        <input type="date" id="purchaseDate" formControlName="purchaseDate" class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm bg-gray-700 text-white" [disabled]="true">
+      </div>
+
+      <!-- Tamaño -->
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-300">Tamaño</label>
+        <div class="flex space-x-4">
+          <div class="flex items-center" *ngFor="let size of sizeOptions">
+            <input type="radio" [id]="size" formControlName="size" [value]="size" class="h-4 w-4 text-gray-600 focus:ring-gray-500" required>
+            <label [for]="size" class="ml-2 text-sm text-gray-300">{{ size }}</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ingredientes -->
+      <div class="mb-4" formGroupName="toppings">
+        <label class="block text-sm font-medium text-gray-300">Elige los ingredientes</label>
+        <div class="flex items-center space-x-4">
+          <div class="flex items-center" *ngFor="let topping of toppingOptions">
+            <input type="checkbox" [id]="topping" [formControlName]="topping" class="h-4 w-4 text-gray-600 focus:ring-gray-500">
+            <label [for]="topping" class="ml-2 text-sm text-gray-300">{{ topping }}</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cantidad de Pizzas -->
+      <div class="mb-4">
+        <label for="quantity" class="block text-sm font-medium text-gray-300">Cantidad de Pizzas</label>
+        <input type="number" id="quantity" formControlName="quantity" min="1" class="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm bg-gray-700 text-white" required>
+      </div>
+
+      <!-- Botón de Enviar -->
+      <div class="flex justify-center">
+        <button type="submit" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500">
+          Añadir Pedido
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
