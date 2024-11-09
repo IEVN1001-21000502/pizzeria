@@ -64,24 +64,27 @@ export class TransaccionesService {
     return data ? JSON.parse(data) : {};
   }
 
-  // Métodos para enviar y recibir solicitudes usando axios
+  // Métodos para enviar y recibir solicitudes usando localStorage
   async fetchPedidos(fecha: string) {
     try {
-      const response = await axios.post('http://192.168.1.2:5000/pizzeria/pedidos', { fecha });
-      return response.data.pedidos;
+      const pedidos = JSON.parse(localStorage.getItem('pedidos') || '[]');
+      const pedidosFiltrados = pedidos.filter((pedido: any) => pedido.fecha_pedido === fecha);
+      return pedidosFiltrados;
     } catch (error) {
-      console.error('Error fetching pedidos:', error);
+      console.error('Error fetching pedidos from localStorage:', error);
       throw error;
     }
   }
 
   async addPedido(pedido: any) {
     try {
-      const response = await axios.post('http://192.168.1.2:5000/pizzeria/addPedido', pedido);
-      return response.data;
+      const pedidos = JSON.parse(localStorage.getItem('pedidos') || '[]');
+      pedidos.push(pedido);
+      localStorage.setItem('pedidos', JSON.stringify(pedidos));
+      return { exito: true };  // Return success flag
     } catch (error) {
-      console.error('Error adding pedido:', error);
-      throw error;
+      console.error('Error adding pedido to localStorage:', error);
+      return { exito: false };  // Return failure flag
     }
   }
 }

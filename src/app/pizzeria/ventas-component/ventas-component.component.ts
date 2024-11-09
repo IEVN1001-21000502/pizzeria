@@ -73,6 +73,14 @@ export class VentasComponent implements OnInit {
   }
 
   onSubmit() {
+    const validDays = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+    const purchaseDate = this.formGroup.get('purchaseDate')?.value;
+
+    if (!validDays.includes(purchaseDate)) {
+      alert('Por favor, ingrese un día de la semana válido (Lunes, Martes, Miércoles, Jueves, Viernes, Sábado, Domingo)');
+      return;
+    }
+
     if (this.formGroup.valid) {
       const selectedToppings = Object.entries(this.formGroup.value.toppings)
         .filter(([_, selected]) => selected)
@@ -99,7 +107,8 @@ export class VentasComponent implements OnInit {
           if (
             lastOrder.fullName !== order.fullName ||
             lastOrder.address !== order.address ||
-            lastOrder.phone !== order.phone
+            lastOrder.phone !== order.phone ||
+            lastOrder.purchaseDate !== order.purchaseDate
           ) {
             alert('Termina el pedido actual primero');
             return;

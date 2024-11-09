@@ -64,8 +64,16 @@ export class ResumenPedidoComponent implements OnInit {
 
   async submitOrder() {
     if (this.orders.length > 0) {
+      const validDays = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+      const purchaseDate = this.orders[0].purchaseDate;
+
+      if (!validDays.includes(purchaseDate)) {
+        alert('Por favor, ingrese un día de la semana válido (Lunes, Martes, Miércoles, Jueves, Viernes, Sábado, Domingo)');
+        return;
+      }
+
       const pedido: Pedido = {
-        fecha_pedido: this.orders[0].purchaseDate,
+        fecha_pedido: purchaseDate,
         nombre: this.orders[0].fullName,
         direccion: this.orders[0].address,
         telefono: this.orders[0].phone,
@@ -76,7 +84,7 @@ export class ResumenPedidoComponent implements OnInit {
       try {
         const response = await this.transaccionesService.addPedido(pedido);
         if (response.exito) {
-          alert('Pedido guardado con éxito en la base de datos');
+          alert('Pedido guardado con éxito');
           this.orders = []; // Clear orders after successful submission
           this.totalPrice = 0; // Reset total price
           this.transaccionesService.setCurrentOrder(null); // Clear current order in service
